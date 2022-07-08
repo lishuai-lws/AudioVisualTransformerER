@@ -1,4 +1,5 @@
 {
-  "cmumosei_audio_path":"/home/lishuai/Dataset/CMU-MOSEI-RAW/Raw/Audio/Full/WAV_fromVideo/",
-  "cmumosei_video_path":"/home/lishuai/Dataset/CMU-MOSEI-RAW/Raw/Videos/Segmented/Combined/"
+  "cmumosei_audio_path":"/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data/audio/WAV_fromVideo",
+  "cmumosei_video_path":"/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data/video/version_img_size_224_img_scale_1.3",
+  "cmumosei_csv_path": "/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data"
 }
