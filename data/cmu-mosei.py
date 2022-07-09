@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from moviepy.editor import *;
+from moviepy.editor import *
 
 
 print("当前路径：",os.curdir)
@@ -15,7 +15,7 @@ audio_path = processeddata_path +'audio/WAV_fromVideo'
 text_path = data_path +'Transcript/Segmented/Combined'
 data_list = os.listdir(data_path)
 if not os.path.exists(processeddata_path):
-    os.mkdirs(processeddata_path)
+    os.makedirs(processeddata_path)
 print("data_list:",data_list)
 def video():
     video_list = os.listdir(video_path)
@@ -26,12 +26,16 @@ def video():
 def audioFromVideo():
     process_video_data = "/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data/video/version_img_size_224_img_scale_1.3"
     video_list = os.listdir(process_video_data)
+    print(len(video_list))
+    video_dir_list=[x for x in video_list if os.path.isdir(os.path.join(process_video_data, x))]
+    print(len(video_dir_list))
     if not os.path.exists(audio_path):
         os.makedirs(audio_path)
-    for video in video_list:
+    for video in video_dir_list:
         print(f"precess:{video}")
-        audio = VideoFileClip(video_path+'/'+video).audio
-        audio.write_audiofile(audio_path+'/'+video[:-3]+'wav')
+        audio = VideoFileClip(video_path+'/'+video[:-8]+".mp4").audio
+        # print(f"audioname:{audio_path+'/'+video[:-3]+'wav'}")
+        audio.write_audiofile(audio_path+'/'+video[:-8]+'.wav')
 
 
 def audio():
@@ -42,6 +46,7 @@ def audio():
     audio_list.sort()
     print("audio 1-5:",audio_list[:5],"audio length:",len(audio_list))
 
-# video()
-audioFromVideo()
-# audio()
+if __name__ == "__main__":
+    # video()
+    audioFromVideo()
+    # audio()
