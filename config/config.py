@@ -19,7 +19,7 @@ class SharedConfigs(object):
     def __init__(self, desc="shared config class for pretraining and downstream"):
         parser = argparse.ArgumentParser(description=desc)
         parser.add_argument('--seed',type=int,default=42,help="random seed")
-        parser.add_argument('output_dir', type=str, default="/home/lishuai/workspace/AudioVisualTransformerER/output")
+        parser.add_argument('--output_dir', type=str, default="/home/lishuai/workspace/AudioVisualTransformerER/output")
         self.cwd = os.getcwd()
         self.parser = parser
         
