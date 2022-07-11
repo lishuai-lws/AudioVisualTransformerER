@@ -11,32 +11,37 @@ from utils.logger import LOGGER
 from config.config import shared_configs
 
 
-def load_wav_csv(audio_path,csv_path):
+def load_wav_csv(audio_path, output_path):
     if not os.path.exists(audio_path):
         LOGGER.error("read_wav_csv audio_path:%s not exist.",audio_path)
         return
-    if not os.path.exists(csv_path):
-        os.makedirs(csv_path)
-        LOGGER.info(f"makedirs:{csv_path}")
-    audio_csv_path = os.path.join(csv_path, "audiodata.csv")
-    field_names = ["audio_name", "audio_data"]
-    # with open(audio_csv_path,"w",newline='') as audio_csv:
-    #     writer = csv.DictWriter(audio_csv,field_names)
-    #     writer.writeheader()
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+        LOGGER.info(f"makedirs:{output_path}")
+    name_csv_path = os.path.join(output_path, "audiodata.csv")
+    audio_npy_path = os.path.join(output_path,"audiodata.npy")
+    audio_list = []
     file_list = os.listdir(audio_path)
-    audio_dict = {"name":[],"data":[]}
+    name_list = []
+
     for file in tqdm(file_list[:5]):
         wave_data, samplerate = librosa.load(os.path.join(audio_path,file))
-        print(type(wave_data))
-        # audio_list.append([file[:-4],wave_data])
-        audio_dict["name"].append(file)
-        audio_dict["data"].append(wave_data)
-    LOGGER.info(f"audio lengths:{len(audio_dict)}")
-    df = pd.DataFrame(audio_dict)
-    df.to_csv(audio_csv_path,index=False)
-    df2 = pd.read_csv(audio_csv_path)
+        # wave_data = np.reshape(wave_data,[wave_data.shape[0],-1])
+        print(wave_data.shape)
+        name_list.append(file[:-4])
+        audio_list.append(wave_data)
+
+    LOGGER.info(f"audio lengths:{len(name_list)}")
+    df = pd.DataFrame(name_list)
+    df.to_csv(name_csv_path,index=False)
+    print(type(audio_list[0]))
+    audio_npy = np.array(audio_list,dtype=object)
+    np.save(audio_npy_path,audio_npy)
+    df2 = pd.read_csv(name_csv_path)
     print(df2)
-    print(type(df2.loc[0][1]))
+    anpy = np.load(audio_npy_path, allow_pickle=True)
+    print(type(anpy))
+    print(anpy[0])
     #27382
 
 def load_video_csv(video_path,csv_path):

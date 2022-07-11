@@ -14,3 +14,8 @@ if __name__ == "__main__":
     df1.to_csv("./datafram.csv",mode="a",index=False)
     df2 = pd.read_csv("./datafram.csv")
     print(df2)
+
+    li = [[1,2,3],[4,5,6]]
+    print(type(li[0]))
+    a = np.array(li)
+    print(type(a[0]))
