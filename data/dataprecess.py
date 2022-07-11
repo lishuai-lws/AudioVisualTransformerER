@@ -41,7 +41,7 @@ def load_wav_csv(audio_path, output_path):
     print(df2)
     anpy = np.load(audio_npy_path, allow_pickle=True)
     print(type(anpy))
-    print(anpy[0])
+    print(anpy.shape)
     #27382
 
 def load_video_csv(video_path,csv_path):
