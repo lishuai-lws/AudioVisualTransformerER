@@ -26,7 +26,6 @@ def load_wav_csv(audio_path, output_path):
 
     for file in tqdm(file_list[:5]):
         wave_data, samplerate = librosa.load(os.path.join(audio_path,file))
-        # wave_data = np.reshape(wave_data,[wave_data.shape[0],-1])
         print(wave_data.shape)
         name_list.append(file[:-4])
         audio_list.append(wave_data)
