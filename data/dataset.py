@@ -5,10 +5,9 @@ import  os
 
 
 class CMUMOSEIDataset(Dataset):
-    def __init__(self):
-        args = shared_configs.get_data_process_args()
-        audio_path = os.path.join(args.cmumosei_csv_path,"audiodata.csv")
-        video_path = os.path.join(args.cmumosei_csv_path,"videodata.csv")
-        audio_df = pd.read_csv(audio_path)
-        vidoe_df = pd.read_csv(video_path)
+    def __init__(self, audio_path, video_path, ids_path):
+        self.ids = pd.read_csv(ids_path).tolist()
 
+
+    def __len__(self):
+        return len(self.ids)
