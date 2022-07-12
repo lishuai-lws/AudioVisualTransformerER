@@ -5,7 +5,7 @@ import numpy as np
 import librosa
 import pandas as pd
 from tqdm import tqdm
-
+import h5py
 
 from utils.logger import LOGGER
 from config.config import shared_configs
@@ -18,12 +18,11 @@ def load_wav_csv(audio_path, output_path):
     if not os.path.exists(output_path):
         os.makedirs(output_path)
         LOGGER.info(f"makedirs:{output_path}")
-    name_csv_path = os.path.join(output_path, "audiodata.csv")
+    name_csv_path = os.path.join(output_path, "dataname.csv")
     audio_npy_path = os.path.join(output_path,"audiodata.npy")
     audio_list = []
     file_list = os.listdir(audio_path)
     name_list = []
-
     for file in tqdm(file_list[:5]):
         wave_data, samplerate = librosa.load(os.path.join(audio_path,file))
         print(wave_data.shape)
@@ -53,22 +52,22 @@ def load_video_csv(video_path,csv_path):
         LOGGER.info(f"makedirs:{csv_path}")
     video_csv_path = os.path.join(csv_path, "videodata.csv")
     video_list = [dir for dir in os.listdir(video_path) if os.path.isdir(os.path.join(video_path,dir))]
+    name_csv_path = os.path.join(output_path, "dataname.csv")
+    name_dataframe = df.read_csv(name_csv_path)
     LOGGER.info(f"video number:{len(video_list)} ")
-    df_list = []
+    video_list = []
     i = 0
-    for video_dir in tqdm(video_list[:5]):
-        video_dir_path = os.path.join(video_path, video_dir)
+    for video_dir in tqdm(name_dataframe[:5]):
+        video_dir_path = os.path.join(video_path, videname_dataframe+"_aligned")
         image_list = os.listdir(video_dir_path)
         video = []
         for image in image_list:
             img = Image.open(os.path.join(video_dir_path, image))
             video.append(np.array(img.getdata()))
             img.close()
-        df_list.append([video_dir[:-8],video])
+        video_list.append(video)
         if ++i >=3 :
-            df = pd.DataFrame(df_list)
-            df_list.clear()
-            df.to_csv(video_csv_path, header=False, index=False, mode="a")
+            video_npy = np.array(video_list)
     LOGGER.info(f"video lengths:{len(df_list)}")
     df = pd.DataFrame(df_list)
     df.to_csv(video_csv_path,header=False,index=False, mode="a")
