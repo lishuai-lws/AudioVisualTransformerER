@@ -3,6 +3,8 @@ import torch
 from config.config import shared_configs
 from utils.logger import LOGGER, add_log_to_file
 from utils.misc import set_random_seed
+from data.dataset import CMUMOSEIDataset
+
 
 def main(opts):
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -10,6 +12,7 @@ def main(opts):
 
     set_random_seed(opts.seed)
     LOGGER.info("Loading dataset...")
+
 
 
 
