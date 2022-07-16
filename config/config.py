@@ -24,7 +24,7 @@ class SharedConfigs(object):
         self.parser = parser
         
     def get_pretrain_args(self):
-        pass
+        self.parser.add_argument("--batch_size",type=int,default=32)
 
     def get_data_process_args(self):
         self.parser.add_argument('--config',type=str,default="../config/data_config.json",help="config file")
