@@ -16,7 +16,7 @@ class CMUMOSEIDataset(Dataset):
         ])
         wavedatas = []
         videodatas = []
-        for id in ids:
+        for id in ids[:5]:
             wave_data, samplerate = librosa.load(os.path.join(audio_path, id+".wav"))
             wavedatas.append(wave_data)
             videodir = os.path.join(video_path,id+"_aligend")
