@@ -6,6 +6,7 @@ import librosa
 import torchvision.transforms as transformer
 from PIL import Image
 import numpy as np
+import torch
 
 class CMUMOSEIDataset(Dataset):
     def __init__(self,audio_path,video_path,ids_path):
@@ -40,4 +41,8 @@ class CMUMOSEIDataset(Dataset):
         return len(self.ids)
 
     def __getitem__(self, item):
+
         return self.audiodata[item], self.videodata[item]
+
+
+# https://blog.csdn.net/anshiquanshu/article/details/112868740
