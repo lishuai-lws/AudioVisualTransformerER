@@ -13,8 +13,7 @@ def main(opts):
 
     set_random_seed(opts.seed)
     LOGGER.info("Loading dataset...")
-    opts.get_data_process_args()
-    cmudataset = CMUMOSEIDataset(opts.cmumosei_audio_path,opts.cmumosei_video_path,opts.cmumosei_ids_path)
+    cmudataset = CMUMOSEIDataset()
     cmudataloader = DataLoader(dataset = cmudataset,batch_size=opts.batch_size,shuffle=True)
 
 
