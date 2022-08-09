@@ -1,6 +1,7 @@
 from torch import nn
 from transformers import Wav2Vec2Tokenizer, Wav2Vec2Model
 from transformers import AutoFeatureExtractor, ResNetForImageClassification
+from config.config import shared_configs
 
 
 
@@ -27,3 +28,24 @@ class ResNet50(nn.Module):
         inputs = self.feature_extractor(image, return_tensors="pt")
         feature = self.model(**inputs)
         return feature
+
+def audio_Wav2Vec2(opts, wavdata):
+    modelpath = opts.wav2vec2_base_960h
+    tokenizer = Wav2Vec2Tokenizer.from_pretrained(modelpath, padding=True)
+    model = Wav2Vec2Model.from_pretrained(modelpath)
+    input_values = tokenizer(wavdata, return_tensors="pt").input_values
+    feature = model(input_values)
+    return feature
+def video_resnet50(opts, images):
+    modelpath = opts.resnet50
+    feature_extractor = AutoFeatureExtractor.from_pretrained(modelpath)
+    model = ResNetForImageClassification.from_pretrained(modelpath)
+    features = []
+    for image in images:
+        inputs = feature_extractor(image, return_tensors="pt")
+        feature = model(**inputs)
+        features = features.append(feature)
+
+    return features
+if __name__=="__main__":
+    opts = shared_configs.get_data_embedding_args()

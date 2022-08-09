@@ -32,6 +32,10 @@ class SharedConfigs(object):
         self.parser.add_argument('--config',type=str,default="../config/data_config.json",help="config file")
         args = self.parse_args()
         return args
+    def get_data_embedding_args(self):
+        self.parser.add_argument('--config',type=str,default="../config/embedding_config.json",help="config file")
+        args = self.parse_args()
+        return args
     def parse_args(self):
         args = parse_with_config(self.parser)
         return args

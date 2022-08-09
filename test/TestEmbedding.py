@@ -14,7 +14,7 @@ LOGGER.info("device:{}".format(device))
 set_random_seed(opts.seed)
 LOGGER.info("Loading dataset...")
 cmudataset = CMUMOSEIDataset(opts.cmumosei_audio_path,opts.cmumosei_video_path,opts.cmumosei_ids_path)
-cmudataloader = DataLoader(dataset = cmudataset,batch_size=opts.batch_size,shuffle=True,collate_fn=)
+cmudataloader = DataLoader(dataset = cmudataset,batch_size=opts.batch_size,shuffle=True)
 for audio, video in tqdm(cmudataloader):
     audiofeature = AudioWav2Vec2(audio)
     videofeature = []
