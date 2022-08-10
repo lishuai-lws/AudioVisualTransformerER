@@ -1,5 +1,9 @@
 {
   "cmumosei_audio_path":"/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data/audio/WAV_fromVideo",
   "cmumosei_video_path":"/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data/video/version_img_size_224_img_scale_1.3",
-  "cmumosei_ids_path": "/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data/ids.csv"
+  "cmumosei_ids_path": "/home/lishuai/Dataset/CMU-MOSEI-RAW/processed_data/ids.csv",
+  "wav2vec2-base-960h": "",
+  "resnet50": "",
+  "cmumosei_audio_feature_path": "/home/lishuai/Dataset/CMU_MOSEI/audio_feature",
+  "cmumosei_video_feature_path": "/home/lishuai/Dataset/CMU_MOSEI/video_feature"
 }

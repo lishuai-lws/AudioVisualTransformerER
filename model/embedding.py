@@ -2,7 +2,11 @@ from torch import nn
 from transformers import Wav2Vec2Tokenizer, Wav2Vec2Model
 from transformers import AutoFeatureExtractor, ResNetForImageClassification
 from config.config import shared_configs
-
+import librosa
+import os
+import pandas as pd
+import numpy as np
+from PIL import Image
 
 
 
@@ -20,7 +24,7 @@ class AudioWav2Vec2(nn.Module):
 
 class ResNet50(nn.Module):
     def __init__(self, modelpath):
-        super.__init__()
+        super().__init__()
         self.feature_extractor = AutoFeatureExtractor.from_pretrained(modelpath)
         self.model = ResNetForImageClassification.from_pretrained(modelpath)
 
@@ -45,7 +49,33 @@ def video_resnet50(opts, images):
         inputs = feature_extractor(image, return_tensors="pt")
         feature = model(**inputs)
         features = features.append(feature)
-
     return features
+
 if __name__=="__main__":
-    opts = shared_configs.get_data_embedding_args()
+    opts = shared_configs.get_data_process_args()
+    ids_path = opts.cmumosei_ids_path
+    audio_path = opts.cmumosei_audio_path
+    video_path =opts.cmumosei_video_path
+    ids = np.array(pd.read_csv(ids_path))
+    ids = ids.reshape(ids.shape[0], ).tolist()
+    print(ids[:5])
+
+    wavedatas = []
+    videodatas = []
+    for id in ids[:5]:
+        print("id:", id)
+        wave_data, samplerate = librosa.load(os.path.join(audio_path, id + ".wav"))
+        audioFeature = audio_Wav2Vec2(opts,wave_data)
+        videodir = os.path.join(video_path, id + "_aligned")
+        imglist = os.listdir(videodir)
+        video = []
+        for image in imglist:
+            imgpath = os.path.join(videodir, image)
+            img = Image.open(imgpath)
+            video.append(np.array(img.getdata()))
+            img.close()
+        videoFeature = video_resnet50(opts,video)
+        audioFeaturePath = os.path.join(opts.cmumosei_audio_feature_path,id,".npy")
+        videoFeaturePath = os.path.join(opts.cmumosei_video_feature_path,id,".npy")
+        np.save(audioFeaturePath,audioFeature)
+        np.save(videoFeaturePath,videoFeature)
