@@ -50,18 +50,13 @@ def video_resnet50(opts, images):
         feature = model(**inputs)
         features = features.append(feature)
     return features
-
-if __name__=="__main__":
-    opts = shared_configs.get_data_process_args()
+def cmumosei_data_embedding(opts):
     ids_path = opts.cmumosei_ids_path
     audio_path = opts.cmumosei_audio_path
     video_path =opts.cmumosei_video_path
     ids = np.array(pd.read_csv(ids_path))
     ids = ids.reshape(ids.shape[0], ).tolist()
     print(ids[:5])
-
-    wavedatas = []
-    videodatas = []
     for id in ids[:5]:
         print("id:", id)
         wave_data, samplerate = librosa.load(os.path.join(audio_path, id + ".wav"))
@@ -79,3 +74,7 @@ if __name__=="__main__":
         videoFeaturePath = os.path.join(opts.cmumosei_video_feature_path,id,".npy")
         np.save(audioFeaturePath,audioFeature)
         np.save(videoFeaturePath,videoFeature)
+if __name__=="__main__":
+    opts = shared_configs.get_data_process_args()
+    cmumosei_data_embedding(opts)
+
